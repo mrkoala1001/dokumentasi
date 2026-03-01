@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infografis: Arsitektur Web Modern</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    max-height: 400px;
+}
+@media (min-width: 768px) {
+    .chart-container {
+        height: 350px;
+    }
+}
+body {
+    background-color: #0F172A;
+    color: #F8FAFC;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.glass-card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+</style>
+</head>
+<body class="antialiased min-h-screen p-4 md:p-8">
+
+<!-- PLAN: Section 1 (Intro), Section 2 (Process Flow of MPA vs SPA), Section 3 (Radar Chart - Feature Comparison), Section 4 (Bar Chart - Performance Face-off), Section 5 (Decision Matrix) -->
+<!-- CHOICES: Process Flow -> Goal: Organize -> Chosen: HTML/CSS CSS Flow Diagram -> Justification: Shows data relationship without SVG/Mermaid. Feature Comparison -> Goal: Compare -> Chosen: Radar Chart (Chart.js) -> Justification: Ideal for comparing multiple variables across categories. Performance -> Goal: Compare -> Chosen: Bar Chart (Chart.js) -> Justification: Clear quantitative comparison. -->
+<!-- CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. -->
+<!-- PALETTE: Vibrant Tech (Deep Slate #0F172A, Rose #F43F5E, Sky #0EA5E9, Emerald #10B981, Violet #8B5CF6) -->
+
+<div class="max-w-6xl mx-auto space-y-12">
+
+    <header class="text-center space-y-4 py-12">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
+            Arsitektur Web Modern
+        </h1>
+        <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto">
+            Panduan Visual Memahami MPA, SPA, PWA, dan Strategi Rendering
+        </p>
+    </header>
+
+    <section class="space-y-6">
+        <div class="glass-card p-6 md:p-8 rounded-2xl shadow-2xl">
+            <h2 class="text-3xl font-bold text-white mb-4 border-l-4 border-pink-500 pl-4">Evolusi Pengiriman Halaman</h2>
+            <p class="text-slate-300 mb-8 text-lg">
+                Perbedaan mendasar antara Multi-Page Application (MPA) dan Single Page Application (SPA) terletak pada cara browser berkomunikasi dengan server setelah halaman pertama dimuat. Diagram di bawah ini mengilustrasikan alur proses tersebut.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-slate-800 p-6 rounded-xl border border-pink-500/30">
+                    <h3 class="text-2xl font-bold text-pink-400 mb-2 flex items-center gap-2">
+                        <span>📄</span> MPA (Tradisional)
+                    </h3>
+                    <p class="text-sm text-slate-400 mb-6">Setiap navigasi memicu pemuatan ulang halaman HTML secara utuh dari server.</p>
+                    
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between items-center bg-slate-700 p-3 rounded text-slate-200">
+                            <span>💻 Klien (Klik Link)</span>
+                            <span class="text-pink-400 font-bold">--- Permintaan ---&#8594;</span>
+                            <span>🗄️ Server</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-700 p-3 rounded text-slate-200">
+                            <span>💻 Klien (Render Ulang)</span>
+                            <span class="text-pink-400 font-bold">&#8592;--- HTML Penuh ---</span>
+                            <span>🗄️ Server (Proses HTML)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-xl border border-sky-500/30">
+                    <h3 class="text-2xl font-bold text-sky-400 mb-2 flex items-center gap-2">
+                        <span>⚡</span> SPA (Modern)
+                    </h3>
+                    <p class="text-sm text-slate-400 mb-6">Satu halaman HTML dimuat di awal. Navigasi selanjutnya hanya meminta data (JSON).</p>
+                    
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between items-center bg-slate-700 p-3 rounded text-slate-200">
+                            <span>💻 Klien (Klik Menu)</span>
+                            <span class="text-sky-400 font-bold">--- Permintaan ---&#8594;</span>
+                            <span>🗄️ Server</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-700 p-3 rounded text-slate-200">
+                            <span>💻 Klien (Update UI Dinamis)</span>
+                            <span class="text-sky-400 font-bold">&#8592;--- Data JSON ---</span>
+                            <span>🗄️ Server (Kirim Data)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="glass-card p-6 md:p-8 rounded-2xl shadow-2xl flex flex-col">
+            <h2 class="text-3xl font-bold text-white mb-4 border-l-4 border-emerald-500 pl-4">Analisis Fitur Utama</h2>
+            <p class="text-slate-300 mb-6 flex-grow">
+                Grafik radar ini membandingkan MPA, SPA, dan PWA pada lima dimensi krusial. MPA unggul mutlak di SEO, sementara SPA merajai kecepatan interaksi (UX). PWA hadir sebagai jembatan yang memberikan kapabilitas offline dan pengalaman menyerupai aplikasi native, mengangkat skor SPA ke level berikutnya.
+            </p>
+            <div class="chart-container">
+                <canvas id="radarChart"></canvas>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 md:p-8 rounded-2xl shadow-2xl flex flex-col">
+            <h2 class="text-3xl font-bold text-white mb-4 border-l-4 border-purple-500 pl-4">Metrik Kecepatan (Ilustratif)</h2>
+            <p class="text-slate-300 mb-6 flex-grow">
+                Visualisasi ini menunjukkan kontras performa. SPA memiliki waktu beban awal (Initial Load) yang sedikit lebih tinggi karena harus mengunduh bundle JavaScript besar. Namun, perhatikan waktu navigasi selanjutnya: SPA dan SSR/SSG (melalui teknik hidrasi) jauh lebih cepat dibandingkan MPA yang harus merender ulang HTML secara penuh.
+            </p>
+            <div class="chart-container">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <section class="glass-card p-6 md:p-8 rounded-2xl shadow-2xl">
+        <h2 class="text-3xl font-bold text-white mb-6 border-l-4 border-cyan-400 pl-4">Matriks Pengambilan Keputusan</h2>
+        <p class="text-slate-300 mb-8 text-lg">
+            Memilih arsitektur yang tepat bergantung pada prioritas bisnis Anda. Tabel panduan ini merangkum rekomendasi terbaik berdasarkan kebutuhan spesifik proyek.
+        </p>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-800 text-slate-200 uppercase text-sm tracking-wider">
+                        <th class="p-4 rounded-tl-lg font-bold">Kebutuhan Utama</th>
+                        <th class="p-4 font-bold">Rekomendasi Arsitektur</th>
+                        <th class="p-4 rounded-tr-lg font-bold">Contoh Penggunaan Tertinggi</th>
+                    </tr>
+                </thead>
+                <tbody class="text-slate-300 divide-y divide-slate-700/50">
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 flex items-center gap-3">
+                            <span class="text-2xl">🔍</span>
+                            Fokus pada SEO dan konten teks yang masif
+                        </td>
+                        <td class="p-4 font-bold text-pink-400">MPA / SSG</td>
+                        <td class="p-4">Blog, Portal Berita, Landing Page statis</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 flex items-center gap-3">
+                            <span class="text-2xl">⚡</span>
+                            Aplikasi interaktif tinggi & pergantian state cepat
+                        </td>
+                        <td class="p-4 font-bold text-sky-400">SPA</td>
+                        <td class="p-4">Dashboard Admin, Trello, Gmail</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 flex items-center gap-3">
+                            <span class="text-2xl">📱</span>
+                            Pengalaman mobile maksimal & kapabilitas Offline
+                        </td>
+                        <td class="p-4 font-bold text-emerald-400">PWA</td>
+                        <td class="p-4">Twitter Lite, Starbucks App, E-commerce Mobile</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 flex items-center gap-3">
+                            <span class="text-2xl">🚀</span>
+                            Gabungan interaksi ultra-cepat dan SEO sempurna
+                        </td>
+                        <td class="p-4 font-bold text-purple-400">SSR (Next.js/Nuxt.js)</td>
+                        <td class="p-4">Aplikasi SaaS publik, E-commerce modern</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+
+<script>
+function wrapLabel(label) {
+    if (label.length <= 16) return label;
+    let words = label.split(' ');
+    let lines = [];
+    let currentLine = '';
+    words.forEach(word => {
+        if ((currentLine + word).length > 16) {
+            if (currentLine) lines.push(currentLine.trim());
+            currentLine = word + ' ';
+        } else {
+            currentLine += word + ' ';
+        }
+    });
+    if (currentLine) lines.push(currentLine.trim());
+    return lines;
+}
+
+Chart.defaults.color = '#94A3B8';
+Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+
+const rawRadarLabels = [
+    'Search Engine Optimization (SEO)', 
+    'Kecepatan Pemuatan Awal', 
+    'Pengalaman Pengguna (Interaksi)', 
+    'Kapabilitas Mode Offline', 
+    'Kompleksitas Pengembangan Sistem'
+];
+const wrappedRadarLabels = rawRadarLabels.map(wrapLabel);
+
+const radarCtx = document.getElementById('radarChart').getContext('2d');
+new Chart(radarCtx, {
+    type: 'radar',
+    data: {
+        labels: wrappedRadarLabels,
+        datasets: [
+            {
+                label: 'MPA',
+                data: [95, 80, 40, 10, 85],
+                backgroundColor: 'rgba(244, 63, 94, 0.2)',
+                borderColor: '#F43F5E',
+                pointBackgroundColor: '#F43F5E',
+                pointBorderColor: '#fff',
+                borderWidth: 2
+            },
+            {
+                label: 'SPA',
+                data: [30, 40, 95, 30, 60],
+                backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                borderColor: '#0EA5E9',
+                pointBackgroundColor: '#0EA5E9',
+                pointBorderColor: '#fff',
+                borderWidth: 2
+            },
+            {
+                label: 'PWA',
+                data: [35, 60, 95, 100, 40],
+                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                borderColor: '#10B981',
+                pointBackgroundColor: '#10B981',
+                pointBorderColor: '#fff',
+                borderWidth: 2
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            r: {
+                angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                pointLabels: {
+                    color: '#E2E8F0',
+                    font: { size: 11 }
+                },
+                ticks: { display: false, min: 0, max: 100 }
+            }
+        },
+        plugins: {
+            legend: { position: 'bottom', labels: { color: '#F8FAFC' } },
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+
+const rawBarLabels = [
+    'Multi-Page Application (MPA)', 
+    'Single Page Application (SPA)', 
+    'Server-Side Rendering (SSR / SSG)'
+];
+const wrappedBarLabels = rawBarLabels.map(wrapLabel);
+
+const barCtx = document.getElementById('barChart').getContext('2d');
+new Chart(barCtx, {
+    type: 'bar',
+    data: {
+        labels: wrappedBarLabels,
+        datasets: [
+            {
+                label: 'Waktu Muat Awal (Detik)',
+                data: [1.2, 3.5, 1.8],
+                backgroundColor: '#8B5CF6',
+                borderRadius: 4
+            },
+            {
+                label: 'Waktu Navigasi Menu (Detik)',
+                data: [1.5, 0.2, 0.3],
+                backgroundColor: '#0EA5E9',
+                borderRadius: 4
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                title: { display: true, text: 'Waktu (Detik)', color: '#94A3B8' }
+            },
+            x: {
+                grid: { display: false },
+                ticks: { color: '#E2E8F0', font: { size: 11 } }
+            }
+        },
+        plugins: {
+            legend: { position: 'bottom', labels: { color: '#F8FAFC' } },
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+</body>
+</html>
